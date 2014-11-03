@@ -20,7 +20,7 @@ import java.util.List;
  *
  <pre>
     Usage:
-        $ spark-submit --class com.hyunje.jo.spark.WordCount --master yarn-cluster -i [HDFS input Path] -o [HDFS output path]
+        $ spark-submit --class com.hyunje.jo.spark.WordCount --master yarn-cluster spark-example.jar -i [HDFS input Path] -o [HDFS output path]
  </pre>
  *
  * @author  hyunje
