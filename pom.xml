@@ -8,6 +8,10 @@
     <artifactId>spark-example</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <build>
+        <finalName>spark-example</finalName>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.spark</groupId>
