@@ -17,10 +17,11 @@ import java.util.List;
 /**
  * Spark를 이용해서 Wordcount를 수행하는 프로그램.
  *
- * <pre>
- * Usage:
- *  $ spark-submit --class com.hyunje.jo.spark.WordCount --master yarn-cluster -i [HDFS input Path] -o [HDFS output path]
- * </pre>
+ *
+ <pre>
+    Usage:
+        $ spark-submit --class com.hyunje.jo.spark.WordCount --master yarn-cluster -i [HDFS input Path] -o [HDFS output path]
+ </pre>
  *
  * @author  hyunje
  * @since   2014.10.10
@@ -32,7 +33,7 @@ public class WordCount {
         //Commandline Parsing
         Options options = new Options();
         options.addOption("i","input",true,"input path(HDFS)");
-        options.addOption("o","output",true,"output path(HDFS");
+        options.addOption("o","output",true,"output path(HDFS)");
 
         CommandLineParser parser = new BasicParser();
         CommandLine cmd = parser.parse(options,args);
