@@ -10,12 +10,16 @@ import org.apache.spark.mllib.linalg.distributed.RowMatrix;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Spark mllib의 Matrix 를 ObjectFile로 쓰고 읽는 과정에 대한 간단한 예시.
+ * data/MatrixTest 파일을 이용.
+ * Matrix의 용량이 커질 시 ObjectFile의 용량이 커질 위험이 있다.
+ */
 public class SparkMatrixTest {
     public static final String delim = " ";
 
     public static void main(String[] args) throws ParseException {
         String INPUT_PATH = "", OUTPUT_PATH = "";
-
         //Commandline Parsing
         Options options = new Options();
         options.addOption("i", "input", true, "input path(HDFS)");
@@ -39,7 +43,7 @@ public class SparkMatrixTest {
         JavaSparkContext context = new JavaSparkContext(conf);
 
 
-        //테스트용 Matrix 생성하는 과정
+        //테스트용 Matrix 생성하는 과정 (data 폴더의 MatrixTest 파일 이용)
         JavaRDD<String> data = context.textFile(INPUT_PATH);
         JavaRDD<Vector> valueVector = data.map(
                 new Function<String, Vector>() {
@@ -56,7 +60,7 @@ public class SparkMatrixTest {
 
         //Singular Value Decomposition 수행
         RowMatrix matrix = new RowMatrix(valueVector.rdd());
-        SingularValueDecomposition<RowMatrix, Matrix> svd = matrix.computeSVD(2, true, 1.0E-9d);
+        SingularValueDecomposition<RowMatrix, Matrix> svd = matrix.computeSVD(4, true, 1.0E-9d);
         RowMatrix U = svd.U();
         Vector s = svd.s();
         Matrix V = svd.V();
