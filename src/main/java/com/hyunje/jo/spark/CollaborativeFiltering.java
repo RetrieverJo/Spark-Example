@@ -13,7 +13,7 @@ import scala.Tuple2;
 
 /**
  * Spark의 MLlib 에 존재하는 ALS 알고리즘을 이용하여 추천을 수행하는 프로그램.
- * MovieLens 데이터셋에 대해서
+ * MovieLens 데이터셋에 대해서 수행하는 것을 기준으로 작성되었다.
  * <p/>
  * <pre>
     Usage:
@@ -24,6 +24,7 @@ import scala.Tuple2;
  * @since 14. 11. 3.
  */
 public class CollaborativeFiltering {
+    final static String delimiter = "::";
     public static void main(String[] args) throws ParseException {
         String INPUT_PATH = "", OUTPUT_PATH = "";
 
@@ -53,7 +54,7 @@ public class CollaborativeFiltering {
         JavaRDD<Rating> ratings = data.map(
                 new Function<String, Rating>() {
                     public Rating call(String s) {
-                        String[] sarray = s.split("::");
+                        String[] sarray = s.split(delimiter);
                         return new Rating(Integer.parseInt(sarray[0]), Integer.parseInt(sarray[1]),
                                 Double.parseDouble(sarray[2]));
                     }
@@ -86,7 +87,6 @@ public class CollaborativeFiltering {
         //<<Integer,Integer>,Double> to <Integer,<Integer,Double>>
         JavaPairRDD<Integer, Tuple2<Integer, Double>> userPredictions = JavaPairRDD.fromJavaRDD(predictions.map(
                 new Function<Tuple2<Tuple2<Integer, Integer>, Double>, Tuple2<Integer, Tuple2<Integer, Double>>>() {
-                    @Override
                     public Tuple2<Integer, Tuple2<Integer, Double>> call(Tuple2<Tuple2<Integer, Integer>, Double> v1) throws Exception {
                         return new Tuple2<Integer, Tuple2<Integer, Double>>(v1._1()._1(), new Tuple2<Integer, Double>(v1._1()._2(), v1._2()));
                     }
